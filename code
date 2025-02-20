@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Counter</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script>
+    let products = [
+      { name: "Filet", price: 8, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet a la minute", price: 9, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet strips", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet blokjes", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Haasjes", price: 8, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Haasjes blokjes", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Dijen", price: 7.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Dijen blokjes", price: 9, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Drumsticks", price: 4.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Karbonades", price: 6, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Kipribs", price: 7, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Bouten", price: 4.75, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Poten", price: 4.75, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Shoarma", price: 8.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Bezorgkosten", price: 2.5, count: 0, plusBtn: null, minusBtn: null }
+    ];
+    let total = 0;
+    let heldProductIndex = -1;
+    let holdStartTime = 0;
+    let holdInterval = 100;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      textSize(15);
+      textAlign(LEFT);
+      fill(0);
+
+      // Header
+      fill(50, 150, 200);
+      rect(0, 0, width, 50, 0, 0, 20, 20);
+      fill(255);
+      textSize(20);
+      textStyle(BOLD);
+      text("Price Counter", 10, 34);
+
+      // Product buttons
+      for (let i = 0; i < products.length; i++) {
+        let y = 70 + i * 45;
+        products[i].plusBtn = createButton('+');
+        products[i].plusBtn.position(width - 50, y - 17);
+        products[i].plusBtn.size(35, 35);
+        products[i].plusBtn.style('background-color', '#4CAF50');
+        products[i].plusBtn.style('border', 'none');
+        products[i].plusBtn.style('border-radius', '17px');
+        products[i].plusBtn.style('color', 'white');
+        products[i].plusBtn.style('font-size', '16px');
+        products[i].plusBtn.touchStarted(() => {
+          products[i].count += 1;
+          heldProductIndex = i;
+          holdStartTime = millis();
+        });
+        products[i].plusBtn.touchEnded(() => {
+          heldProductIndex = -1;
+        });
+
+        products[i].minusBtn = createButton('-');
+        products[i].minusBtn.position(width - 100, y - 17);
+        products[i].minusBtn.size(35, 35);
+        products[i].minusBtn.style('background-color', '#F44336');
+        products[i].minusBtn.style('border', 'none');
+        products[i].minusBtn.style('border-radius', '17px');
+        products[i].minusBtn.style('color', 'white');
+        products[i].minusBtn.style('font-size', '16px');
+        products[i].minusBtn.touchStarted(() => {
+          products[i].count = max(0, products[i].count - 1);
+        });
+      }
+    }
+
+    function draw() {
+      background(240, 245, 250);
+      total = 0;
+
+      for (let i = 0; i < products.length; i++) {
+        let p = products[i];
+        let subtotal = p.price * p.count;
+        total += subtotal;
+        let y = 70 + i * 45;
+        fill(255);
+        stroke(200);
+        rect(5, y - 20, width - 10, 40, 10);
+        noStroke();
+        fill(50);
+        textStyle(BOLD);
+        text(p.name, 10, y + 8);
+        textStyle(NORMAL);
+        text("€" + p.price.toFixed(2) + " x " + p.count + " = €" + subtotal.toFixed(2), 150, y + 8);
+      }
+
+      if (heldProductIndex !== -1) {
+        let elapsed = millis() - holdStartTime;
+        if (elapsed > 200) {
+          let speed = max(20, holdInterval - floor(elapsed / 500) * 30);
+          if (frameCount % floor(speed / 16) === 0) {
+            products[heldProductIndex].count += 1;
+          }
+        }
+      }
+
+      let barY = 70 + products.length * 45 + 10;
+      fill(0, 180, 0);
+      noStroke();
+      rect(0, barY, width, 50, 20, 20, 0, 0);
+      fill(255);
+      textSize(18);
+      textStyle(BOLD);
+      text("Total Price: €" + total.toFixed(2), 10, barY + 34);
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+  </script>
+</body>
+</html>
