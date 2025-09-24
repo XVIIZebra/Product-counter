@@ -100,7 +100,8 @@
         textStyle(BOLD);
         text(p.name, 10, y + 8);
         textStyle(NORMAL);
-        text(p.count + " x " + p.price.toFixed(2) + " = €" + subtotal.toFixed(2), 150, y + 8);
+        let subtotalStr = subtotal.toFixed(1).replace('.', ',');
+        text(p.count + " = " + subtotalStr, 150, y + 8);
       }
 
       if (heldProductIndex !== -1) {
@@ -120,7 +121,8 @@
       fill(255);
       textSize(18);
       textStyle(BOLD);
-      text("Total Price: €" + total.toFixed(2), 10, barY + 34);
+      let totalStr = total.toFixed(2).replace('.', ',');
+      text("Total Price: €" + totalStr, 10, barY + 34);
     }
 
     function windowResized() {
