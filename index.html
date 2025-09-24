@@ -45,10 +45,16 @@
     }
 
     function setup() {
-      createCanvas(windowWidth, windowHeight);
-      textSize(12);
+      // Constrain canvas to 95% of screen for padding/blank space reduction
+      createCanvas(windowWidth * 0.95, windowHeight * 0.95);
+      textSize(13);
       textAlign(LEFT);
       fill(0);
+
+      // Center the canvas if needed (optional CSS adjustment)
+      let offsetX = (windowWidth - width) / 2;
+      let offsetY = (windowHeight - height) / 2;
+      translate(offsetX, offsetY);
 
       // Header
       fill(50, 150, 200);
@@ -60,9 +66,9 @@
 
       // Product buttons (adjusted for tighter spacing)
       for (let i = 0; i < products.length; i++) {
-        let y = 105 + i * 35;
+        let y = 105 + i * 40;  // Increased spacing to match bigger bars
         products[i].plusBtn = createButton('+');
-        products[i].plusBtn.position(width - 50, y - 14);
+        products[i].plusBtn.position(width - 50, y - 15);
         products[i].plusBtn.size(30, 30);
         products[i].plusBtn.style('background-color', '#4CAF50');
         products[i].plusBtn.style('border', 'none');
@@ -79,7 +85,7 @@
         });
 
         products[i].minusBtn = createButton('-');
-        products[i].minusBtn.position(width - 85, y - 14);
+        products[i].minusBtn.position(width - 85, y - 15);
         products[i].minusBtn.size(30, 30);
         products[i].minusBtn.style('background-color', '#F44336');
         products[i].minusBtn.style('border', 'none');
@@ -113,22 +119,22 @@
       text("Total: €" + formatPrice(total), 10, totalY + 32);
 
       // Reset for products
-      textSize(12);
+      textSize(13);
       textStyle(NORMAL);
 
       for (let i = 0; i < products.length; i++) {
         let p = products[i];
         let subtotal = p.price * p.count;
-        let y = 105 + i * 35;
+        let y = 105 + i * 40;  // Match the increased spacing
         fill(255);
         stroke(200);
-        rect(5, y - 18, width - 10, 35, 8);
+        rect(5, y - 20, width - 10, 40, 8);  // Increased height to 40
         noStroke();
         fill(50);
         textStyle(BOLD);
-        text(p.name, 10, y + 6);
+        text(p.name, 10, y + 7);
         textStyle(NORMAL);
-        text(p.count + " = " + formatPrice(subtotal), 150, y + 6);
+        text(p.count + " = " + formatPrice(subtotal), 150, y + 7);
       }
 
       if (heldProductIndex !== -1) {
@@ -143,7 +149,11 @@
     }
 
     function windowResized() {
-      resizeCanvas(windowWidth, windowHeight);
+      // Re-center on resize
+      let offsetX = (windowWidth - width) / 2;
+      let offsetY = (windowHeight - height) / 2;
+      translate(offsetX, offsetY);
+      resizeCanvas(windowWidth * 0.95, windowHeight * 0.95);
     }
   </script>
 </body>
