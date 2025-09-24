@@ -13,12 +13,12 @@
 <body>
   <script>
     let products = [
-      { name: "Filet", price: 8, count: 0, plusBtn: null, minusBtn: null },
-      { name: "Filet a la minute", price: 9, count: 0, plusBtn: null, minusBtn: null },
-      { name: "Filet strips", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
-      { name: "Filet blokjes", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
-      { name: "Haasjes", price: 8, count: 0, plusBtn: null, minusBtn: null },
-      { name: "Haasjes blokjes", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet", price: 8.75, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet a la minute", price: 9.5, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet strips", price: 10, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Filet blokjes", price: 10, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Haasjes", price: 8.75, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Haasjes blokjes", price: 10, count: 0, plusBtn: null, minusBtn: null },
       { name: "Dijen", price: 7.5, count: 0, plusBtn: null, minusBtn: null },
       { name: "Dijen blokjes", price: 9, count: 0, plusBtn: null, minusBtn: null },
       { name: "Drumsticks", price: 4.5, count: 0, plusBtn: null, minusBtn: null },
@@ -26,6 +26,7 @@
       { name: "Kipribs", price: 7, count: 0, plusBtn: null, minusBtn: null },
       { name: "Bouten", price: 4.75, count: 0, plusBtn: null, minusBtn: null },
       { name: "Poten", price: 4.75, count: 0, plusBtn: null, minusBtn: null },
+      { name: "Kipgehakt", price: 8.5, count: 0, plusBtn: null, minusBtn: null },
       { name: "Shoarma", price: 8.5, count: 0, plusBtn: null, minusBtn: null },
       { name: "Bezorgkosten", price: 2.5, count: 0, plusBtn: null, minusBtn: null }
     ];
@@ -99,7 +100,7 @@
         textStyle(BOLD);
         text(p.name, 10, y + 8);
         textStyle(NORMAL);
-        text("€" + p.price.toFixed(2) + " x " + p.count + " = €" + subtotal.toFixed(2), 150, y + 8);
+        text(p.count + " x " + p.price.toFixed(2) + " = €" + subtotal.toFixed(2), 150, y + 8);
       }
 
       if (heldProductIndex !== -1) {
