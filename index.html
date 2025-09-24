@@ -103,14 +103,14 @@
       }
 
       // Total at top (adjusted position)
-      let totalY = 50;
+      let totalY = 0;
       fill(0, 180, 0);
       noStroke();
       rect(0, totalY, width, 45, 10, 10, 0, 0);
       fill(255);
       textSize(14);
       textStyle(BOLD);
-      text("Total: €" + formatPrice(total), 10, totalY + 10);
+      text("Total: €" + formatPrice(total), 10, totalY + 32);
 
       // Reset for products
       textSize(12);
