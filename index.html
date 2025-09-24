@@ -6,8 +6,17 @@
   <title>Price Counter</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
   <style>
-    body { margin: 0; padding: 0; overflow: hidden; }
-    canvas { display: block; }
+    body { 
+      margin: 0; 
+      padding: 0; 
+      overflow: hidden; 
+      height: 100vh;
+    }
+    canvas { 
+      display: block; 
+      height: 100vh;
+      width: 100vw;
+    }
   </style>
 </head>
 <body>
@@ -33,6 +42,9 @@
     let heldProductIndex = -1;
     let holdStartTime = 0;
     let holdInterval = 100;
+    let itemSpacing;
+    let startY;
+    let textScale;
 
     function formatPrice(num) {
       let str = num.toFixed(2).replace('.', ',');
@@ -46,29 +58,38 @@
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
-      textSize(11);
       textAlign(LEFT);
       fill(0);
 
+      // Dynamic sizing
+      let headerHeight = 50;
+      let totalHeight = 45;
+      let availableHeight = height - headerHeight - totalHeight;
+      itemSpacing = availableHeight / products.length;
+      startY = headerHeight + totalHeight;
+      textScale = min(12, itemSpacing * 0.35); // Scale text based on spacing
+
       // Header
       fill(50, 150, 200);
-      rect(0, 0, width, 45, 0, 0, 15, 15);
+      rect(0, 0, width, headerHeight, 0, 0, 20, 20);
       fill(255);
-      textSize(16);
       textStyle(BOLD);
-      text("Price Counter", 10, 30);
+      text("Price Counter", 10, headerHeight * 0.7);
 
-      // Product buttons (tighter spacing)
+      // Product buttons (dynamic positioning)
       for (let i = 0; i < products.length; i++) {
-        let y = 95 + i * 32;
+        let y = startY + i * itemSpacing;
+        let btnSize = min(30, itemSpacing * 0.8);
+        let btnOffset = (itemSpacing - btnSize) / 2;
+
         products[i].plusBtn = createButton('+');
-        products[i].plusBtn.position(width - 45, y - 12);
-        products[i].plusBtn.size(28, 28);
+        products[i].plusBtn.position(width - 50, y - btnOffset);
+        products[i].plusBtn.size(btnSize, btnSize);
         products[i].plusBtn.style('background-color', '#4CAF50');
         products[i].plusBtn.style('border', 'none');
-        products[i].plusBtn.style('border-radius', '14px');
+        products[i].plusBtn.style('border-radius', btnSize / 2 + 'px');
         products[i].plusBtn.style('color', 'white');
-        products[i].plusBtn.style('font-size', '13px');
+        products[i].plusBtn.style('font-size', max(12, btnSize * 0.5) + 'px');
         products[i].plusBtn.touchStarted(() => {
           products[i].count += 1;
           heldProductIndex = i;
@@ -79,13 +100,13 @@
         });
 
         products[i].minusBtn = createButton('-');
-        products[i].minusBtn.position(width - 78, y - 12);
-        products[i].minusBtn.size(28, 28);
+        products[i].minusBtn.position(width - 85, y - btnOffset);
+        products[i].minusBtn.size(btnSize, btnSize);
         products[i].minusBtn.style('background-color', '#F44336');
         products[i].minusBtn.style('border', 'none');
-        products[i].minusBtn.style('border-radius', '14px');
+        products[i].minusBtn.style('border-radius', btnSize / 2 + 'px');
         products[i].minusBtn.style('color', 'white');
-        products[i].minusBtn.style('font-size', '13px');
+        products[i].minusBtn.style('font-size', max(12, btnSize * 0.5) + 'px');
         products[i].minusBtn.touchStarted(() => {
           products[i].count = max(0, products[i].count - 1);
         });
@@ -102,33 +123,32 @@
         total += p.price * p.count;
       }
 
-      // Total at top (adjusted position)
-      let totalY = 45;
+      // Total at top
+      let headerHeight = 50;
+      let totalHeight = 45;
+      let totalY = headerHeight;
       fill(0, 180, 0);
       noStroke();
-      rect(0, totalY, width, 40, 8, 8, 0, 0);
+      rect(0, totalY, width, totalHeight, 10, 10, 0, 0);
       fill(255);
-      textSize(13);
       textStyle(BOLD);
-      text("Total: €" + formatPrice(total), 10, totalY + 27);
+      text("Total: €" + formatPrice(total), 10, totalY + totalHeight * 0.7);
 
-      // Reset for products
-      textSize(11);
+      // Products
       textStyle(NORMAL);
-
       for (let i = 0; i < products.length; i++) {
         let p = products[i];
         let subtotal = p.price * p.count;
-        let y = 95 + i * 32;
+        let y = startY + i * itemSpacing;
         fill(255);
         stroke(200);
-        rect(5, y - 16, width - 10, 32, 6);
+        rect(5, y - itemSpacing / 2, width - 10, itemSpacing, 8);
         noStroke();
         fill(50);
         textStyle(BOLD);
-        text(p.name, 10, y + 5);
+        text(p.name, 10, y);
         textStyle(NORMAL);
-        text(p.count + " = " + formatPrice(subtotal), 140, y + 5);
+        text(p.count + " = " + formatPrice(subtotal), 150, y);
       }
 
       if (heldProductIndex !== -1) {
@@ -144,6 +164,13 @@
 
     function windowResized() {
       resizeCanvas(windowWidth, windowHeight);
+      // Re-setup dynamic values on resize
+      let headerHeight = 50;
+      let totalHeight = 45;
+      let availableHeight = height - headerHeight - totalHeight;
+      itemSpacing = availableHeight / products.length;
+      startY = headerHeight + totalHeight;
+      textScale = min(12, itemSpacing * 0.35);
     }
   </script>
 </body>
