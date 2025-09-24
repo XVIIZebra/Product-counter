@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Price Counter</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
   <style>
@@ -47,7 +47,7 @@
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
-      textSize(14);
+      textSize(12);
       textAlign(LEFT);
       fill(0);
 
@@ -55,21 +55,21 @@
       fill(50, 150, 200);
       rect(0, 0, width, 50, 0, 0, 20, 20);
       fill(255);
-      textSize(20);
+      textSize(18);
       textStyle(BOLD);
       text("Price Counter", 10, 34);
 
-      // Product buttons
+      // Product buttons (adjusted for tighter spacing)
       for (let i = 0; i < products.length; i++) {
-        let y = 100 + i * 40;
+        let y = 105 + i * 35;
         products[i].plusBtn = createButton('+');
-        products[i].plusBtn.position(width - 50, y - 15);
-        products[i].plusBtn.size(35, 35);
+        products[i].plusBtn.position(width - 50, y - 14);
+        products[i].plusBtn.size(30, 30);
         products[i].plusBtn.style('background-color', '#4CAF50');
         products[i].plusBtn.style('border', 'none');
-        products[i].plusBtn.style('border-radius', '17px');
+        products[i].plusBtn.style('border-radius', '15px');
         products[i].plusBtn.style('color', 'white');
-        products[i].plusBtn.style('font-size', '16px');
+        products[i].plusBtn.style('font-size', '14px');
         products[i].plusBtn.touchStarted(() => {
           products[i].count += 1;
           heldProductIndex = i;
@@ -80,13 +80,13 @@
         });
 
         products[i].minusBtn = createButton('-');
-        products[i].minusBtn.position(width - 100, y - 15);
-        products[i].minusBtn.size(35, 35);
+        products[i].minusBtn.position(width - 85, y - 14);
+        products[i].minusBtn.size(30, 30);
         products[i].minusBtn.style('background-color', '#F44336');
         products[i].minusBtn.style('border', 'none');
-        products[i].minusBtn.style('border-radius', '17px');
+        products[i].minusBtn.style('border-radius', '15px');
         products[i].minusBtn.style('color', 'white');
-        products[i].minusBtn.style('font-size', '16px');
+        products[i].minusBtn.style('font-size', '14px');
         products[i].minusBtn.touchStarted(() => {
           products[i].count = max(0, products[i].count - 1);
         });
@@ -103,33 +103,33 @@
         total += p.price * p.count;
       }
 
-      // Total at top
-      let totalY = 55;
+      // Total at top (adjusted position)
+      let totalY = 50;
       fill(0, 180, 0);
       noStroke();
-      rect(0, totalY, width, 40, 10, 10, 0, 0);
+      rect(0, totalY, width, 45, 10, 10, 0, 0);
       fill(255);
-      textSize(16);
+      textSize(14);
       textStyle(BOLD);
-      text("Total Price: €" + formatPrice(total), 10, totalY + 28);
+      text("Total: €" + formatPrice(total), 10, totalY + 32);
 
       // Reset for products
-      textSize(14);
+      textSize(12);
       textStyle(NORMAL);
 
       for (let i = 0; i < products.length; i++) {
         let p = products[i];
         let subtotal = p.price * p.count;
-        let y = 100 + i * 40;
+        let y = 105 + i * 35;
         fill(255);
         stroke(200);
-        rect(5, y - 20, width - 10, 40, 10);
+        rect(5, y - 18, width - 10, 35, 8);
         noStroke();
         fill(50);
         textStyle(BOLD);
-        text(p.name, 10, y + 8);
+        text(p.name, 10, y + 6);
         textStyle(NORMAL);
-        text(p.count + " = " + formatPrice(subtotal), 150, y + 8);
+        text(p.count + " = " + formatPrice(subtotal), 150, y + 6);
       }
 
       if (heldProductIndex !== -1) {
