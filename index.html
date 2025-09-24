@@ -64,9 +64,9 @@
       // Dynamic sizing
       let headerHeight = 50;
       let totalHeight = 45;
-      let availableHeight = height - headerHeight - totalHeight;
+      let availableHeight = height - headerHeight - totalHeight - 10; // Extra padding to avoid overlap
       itemSpacing = availableHeight / products.length;
-      startY = headerHeight + totalHeight;
+      startY = headerHeight + totalHeight + 5; // Slight offset to prevent overlap
       textScale = min(12, itemSpacing * 0.35); // Scale text based on spacing
 
       // Header
@@ -167,9 +167,9 @@
       // Re-setup dynamic values on resize
       let headerHeight = 50;
       let totalHeight = 45;
-      let availableHeight = height - headerHeight - totalHeight;
+      let availableHeight = height - headerHeight - totalHeight - 10;
       itemSpacing = availableHeight / products.length;
-      startY = headerHeight + totalHeight;
+      startY = headerHeight + totalHeight + 5;
       textScale = min(12, itemSpacing * 0.35);
     }
   </script>
