@@ -46,7 +46,7 @@
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
-      textSize(13);
+      textSize(12);
       textAlign(LEFT);
       fill(0);
 
@@ -60,9 +60,9 @@
 
       // Product buttons (adjusted for tighter spacing)
       for (let i = 0; i < products.length; i++) {
-        let y = 105 + i * 40;  // Increased spacing to match bigger bars
+        let y = 105 + i * 35;
         products[i].plusBtn = createButton('+');
-        products[i].plusBtn.position(width - 50, y - 15);
+        products[i].plusBtn.position(width - 50, y - 14);
         products[i].plusBtn.size(30, 30);
         products[i].plusBtn.style('background-color', '#4CAF50');
         products[i].plusBtn.style('border', 'none');
@@ -79,7 +79,7 @@
         });
 
         products[i].minusBtn = createButton('-');
-        products[i].minusBtn.position(width - 85, y - 15);
+        products[i].minusBtn.position(width - 85, y - 14);
         products[i].minusBtn.size(30, 30);
         products[i].minusBtn.style('background-color', '#F44336');
         products[i].minusBtn.style('border', 'none');
@@ -113,22 +113,22 @@
       text("Total: €" + formatPrice(total), 10, totalY + 32);
 
       // Reset for products
-      textSize(13);
+      textSize(12);
       textStyle(NORMAL);
 
       for (let i = 0; i < products.length; i++) {
         let p = products[i];
         let subtotal = p.price * p.count;
-        let y = 105 + i * 40;  // Match the increased spacing
+        let y = 105 + i * 35;
         fill(255);
         stroke(200);
-        rect(5, y - 20, width - 10, 40, 8);  // Increased height to 40
+        rect(5, y - 18, width - 10, 35, 8);
         noStroke();
         fill(50);
         textStyle(BOLD);
-        text(p.name, 10, y + 7);
+        text(p.name, 10, y + 6);
         textStyle(NORMAL);
-        text(p.count + " = " + formatPrice(subtotal), 150, y + 7);
+        text(p.count + " = " + formatPrice(subtotal), 150, y + 6);
       }
 
       if (heldProductIndex !== -1) {
